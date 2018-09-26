@@ -1,1 +1,8 @@
-.idea/
+*.class
+*.jar
+
+# Idea
+.idea
+*.iml
+
+local-resources
