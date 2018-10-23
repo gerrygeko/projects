@@ -1,9 +1,12 @@
 package model;
 
+import lombok.Getter;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Getter
 public class Employee extends AbstractPerson implements IEmployee {
 
     private Company company;
@@ -19,22 +22,6 @@ public class Employee extends AbstractPerson implements IEmployee {
         this.employmentDate = employmentDate;
         this.monthlySalary = monthlySalary;
         this.partTimeRate = partTimeRate;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public Date getEmploymentDate() {
-        return employmentDate;
-    }
-
-    public float getMonthlySalary() {
-        return monthlySalary;
-    }
-
-    public int getPartTimeRate() {
-        return partTimeRate;
     }
 
     @Override

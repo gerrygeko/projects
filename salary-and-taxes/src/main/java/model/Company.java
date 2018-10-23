@@ -1,8 +1,12 @@
 package model;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class Company {
 
     private String name;
@@ -12,18 +16,6 @@ public class Company {
     public Company(String name, int taxRate) {
         this.name = name;
         this.taxRate = taxRate;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getTaxRate() {
-        return taxRate;
-    }
-
-    public List<Employee> getListOfEmployers() {
-        return listOfEmployers;
     }
 
     public Double getTaxesFromEmployees() {
