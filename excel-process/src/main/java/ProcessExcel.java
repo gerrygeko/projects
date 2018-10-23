@@ -10,11 +10,11 @@ import java.util.*;
 public class ProcessExcel {
 
 
-    private static final String EXCEL_PROCESS_TEST_XLS = "excel-process\\test.xls";
+    private static final String EXCEL_PROCESS_TEST_XLS = "local-resources\\test.xls";
     private static final int PAY_RATE_COLUMN = 4;
-    public static final int DAY_INDEX = 0;
-    public static final int START_INDEX = 1;
-    public static final int FINISH_INDEX = 2;
+    private static final int DAY_INDEX = 0;
+    private static final int START_INDEX = 1;
+    private static final int FINISH_INDEX = 2;
 
 
     private static DateFormat readFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy");
@@ -32,8 +32,7 @@ public class ProcessExcel {
 
         Map<Integer, List<String>> mapOfRows = getRowsMap(sheet);
 
-        //Code that need deleted. We are going to define a class that describe the sheet that has been loaded from the Excel.
-        //This is just a test to print the content of the file.
+        // Code that need to be tweaked more
         Iterator it = mapOfRows.entrySet().iterator();
         float payRate = getPayRate(it); //get the first row and extract the pay rate
         System.out.println("Pay Rate for hour is: " + payRate);
@@ -43,6 +42,7 @@ public class ProcessExcel {
         }
     }
 
+    // Process the single row where the informations needed are extracted
     private static WorkingDay extractRow(Iterator it) {
 
         WorkingDay workingDay = null;
@@ -68,6 +68,8 @@ public class ProcessExcel {
         return workingDay;
     }
 
+    // Extract a map out of the excel file, where the key is the element 'i' of the row and the value is an ArrayList<String>
+    // containing all the values of the cells on that row
     private static Map<Integer, List<String>> getRowsMap(Sheet sheet) {
         Map<Integer, List<String>> data = new HashMap<>();
         int i = 0;
@@ -102,6 +104,7 @@ public class ProcessExcel {
         return data;
     }
 
+    // Process the first row of the file
     private static float getPayRate(Iterator it) {
         Map.Entry pair = (Map.Entry) it.next();
         ArrayList<String> row = (ArrayList<String>) pair.getValue();
