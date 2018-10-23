@@ -12,12 +12,12 @@ public class ExcelFileReader {
 
     public static Workbook getWorkbook(String filePath) {
 
-        FileInputStream file = null;
+        FileInputStream file;
         Workbook workbook = null;
 
         try {
             file = new FileInputStream(new File(filePath));
-            workbook = new HSSFWorkbook(file);
+            workbook = new XSSFWorkbook(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

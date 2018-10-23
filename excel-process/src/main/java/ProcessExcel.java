@@ -1,13 +1,20 @@
 import org.apache.poi.ss.usermodel.*;
 
+import java.io.File;
 import java.util.*;
 
 public class ProcessExcel {
 
 
+    public static final String EXCEL_PROCESS_TEST_XLS = "excel-process\\test.xls";
+
     public static void main(String[] args) {
 
-        Workbook workbook = ExcelFileReader.getWorkbook("D:\\workspace\\allmodules\\local-resources\\test.xls");
+        File xlsFile = new File(EXCEL_PROCESS_TEST_XLS);
+        String pathFile = xlsFile.getAbsolutePath();
+        System.out.println(pathFile);
+
+        Workbook workbook = ExcelFileReader.getWorkbook(pathFile);
         Sheet sheet = workbook.getSheetAt(0);
 
         Map<Integer, List<String>> data = new HashMap<>();
