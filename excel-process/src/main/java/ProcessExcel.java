@@ -17,9 +17,9 @@ public class ProcessExcel {
     private static final int FINISH_INDEX = 2;
 
 
-    private static DateFormat readFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy");
-    private static DateFormat dayFormat = new SimpleDateFormat("EEE MMM dd yyyy");
-    private static DateFormat hourFormat = new SimpleDateFormat("HH:mm");
+    private static DateFormat readFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+    private static DateFormat dayFormat = new SimpleDateFormat("EEE MMM dd yyyy", Locale.ENGLISH);
+    private static DateFormat hourFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
 
     public static void main(String[] args) {
 
@@ -52,15 +52,16 @@ public class ProcessExcel {
 
         try {
             Date day = readFormat.parse(list.get(DAY_INDEX));
-            Date startTime = readFormat.parse(list.get(START_INDEX));
-            Date finishTime = readFormat.parse(list.get(FINISH_INDEX));
+            Date startTime = hourFormat.parse(list.get(START_INDEX));
+            Date finishTime = hourFormat.parse(list.get(FINISH_INDEX));
 
             String parsedDay = dayFormat.format(day);
             String parsedStartTime = hourFormat.format(startTime);
             String parsedFinishTime = hourFormat.format(finishTime);
 
             workingDay = new WorkingDay(dayFormat.parse(parsedDay), hourFormat.parse(parsedStartTime), hourFormat.parse(parsedFinishTime));
-            workingDay.toString();
+            System.out.println("Minutes worked: " + workingDay.getWorkingTimeInMinutes());
+            //workingDay.toString();
         } catch (ParseException e) {
             e.printStackTrace();
         }

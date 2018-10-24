@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 @AllArgsConstructor
@@ -19,6 +20,11 @@ public class WorkingDay {
     private Date day;
     private Date startTime;
     private Date finishTime;
+
+    public long getWorkingTimeInMinutes() {
+        long workingTime = finishTime.getTime() - startTime.getTime();
+        return TimeUnit.MILLISECONDS.toMinutes(workingTime);
+    }
 
     @Override
     public String toString() {
