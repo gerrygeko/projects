@@ -40,6 +40,11 @@
             <artifactId>lombok</artifactId>
             <version>1.16.18</version>
         </dependency>
+        <dependency>
+            <groupId>allmodules</groupId>
+            <artifactId>salary-and-taxes</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

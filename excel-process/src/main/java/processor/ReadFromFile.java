@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class ReadFromeFile {
+public class ReadFromFile {
 
     private static final int PAY_RATE_COLUMN = 4;
     private static final int DAY_INDEX = 0;

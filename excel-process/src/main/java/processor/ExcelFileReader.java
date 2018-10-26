@@ -4,10 +4,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 
 public class ExcelFileReader {
 
@@ -25,6 +22,23 @@ public class ExcelFileReader {
             e.printStackTrace();
         }
         return workbook;
+    }
+
+    public static void saveWorkbook(Workbook workbook, String filePath) {
+        // Write the output to the file
+        FileOutputStream fileOut = null;
+        try {
+            fileOut = new FileOutputStream(filePath);
+            workbook.write(fileOut);
+            fileOut.close();
+
+            // Closing the workbook
+            workbook.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + e);;
+        } catch (IOException e) {
+            System.err.println("Impossible to read/write from file: " + e);
+        }
     }
 
 }

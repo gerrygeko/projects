@@ -1,10 +1,10 @@
-import model.AbstractPerson;
 import model.Agenda;
 import model.Person;
 import model.WorkingDay;
 import org.apache.poi.ss.usermodel.*;
 import processor.ExcelFileReader;
-import processor.ReadFromeFile;
+import processor.ReadFromFile;
+import processor.WriteToFile;
 
 import java.io.File;
 import java.text.ParseException;
@@ -34,16 +34,18 @@ public class ProcessExcel {
         Workbook workbook = ExcelFileReader.getWorkbook(pathFile);
         Sheet sheet = workbook.getSheetAt(0);
 
-        Map<Integer, List<String>> mapOfRows = ReadFromeFile.getRowsMap(sheet);
+        Map<Integer, List<String>> mapOfRows = ReadFromFile.getRowsMap(sheet);
         // Code that need to be tweaked more
         Iterator it = mapOfRows.entrySet().iterator();
-        float payRate = ReadFromeFile.getPayRate(it); //get the first row and extract the pay rate
+        float payRate = ReadFromFile.getPayRate(it); //get the first row and extract the pay rate
         System.out.println("Pay Rate for hour is: " + payRate);
         while(it.hasNext()) {
-            WorkingDay workingDay = ReadFromeFile.extractRow(it);
+            WorkingDay workingDay = ReadFromFile.extractRow(it);
             myAgenda.getListWorkingDay().add(workingDay);
             System.out.println(workingDay.toString());
         }
+        WriteToFile.writeTimeWorked(sheet, myAgenda.getListWorkingDay());
+        ExcelFileReader.saveWorkbook(workbook, pathFile);
     }
 
 

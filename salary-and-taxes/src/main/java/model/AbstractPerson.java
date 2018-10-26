@@ -1,6 +1,7 @@
 package model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
@@ -9,15 +10,9 @@ import java.util.Date;
 @RequiredArgsConstructor
 public abstract class AbstractPerson {
 
-    private String name;
-    private String surname;
-    private Date bornDate;
-
-    public AbstractPerson(String name, String surname, Date bornDate) {
-        this.name = name;
-        this.surname = surname;
-        this.bornDate = bornDate;
-    }
+    private final String name;
+    private final String surname;
+    private final Date bornDate;
 
     @Override
     public String toString() {
