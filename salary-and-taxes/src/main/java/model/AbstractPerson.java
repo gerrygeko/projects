@@ -1,9 +1,11 @@
 package model;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 
+@Getter
 @RequiredArgsConstructor
 public abstract class AbstractPerson {
 

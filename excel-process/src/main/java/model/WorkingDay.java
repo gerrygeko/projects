@@ -26,6 +26,13 @@ public class WorkingDay {
         return TimeUnit.MILLISECONDS.toMinutes(workingTime);
     }
 
+    public String convertMinutesToHoursAndMinutes() {
+        int totalMinutes = (int) getWorkingTimeInMinutes();
+        int hours = totalMinutes / 60;
+        int minutes = totalMinutes % 60;
+        return new String(hours + ":" + minutes);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -34,7 +41,9 @@ public class WorkingDay {
         sb.append("Starting time: ");
         sb.append(startTime + "\t");
         sb.append("Finishing time: ");
-        sb.append(finishTime + "\n");
+        sb.append(finishTime + "\t");
+        sb.append("Time worked: ");
+        sb.append(convertMinutesToHoursAndMinutes());
         return sb.toString();
     }
 }
