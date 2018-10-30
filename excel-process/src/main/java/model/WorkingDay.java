@@ -17,12 +17,12 @@ import java.util.concurrent.TimeUnit;
 public class WorkingDay {
 
 
-    public static final int DECIMAL_PLACE = 2;
-    public static final String EURO_CHAR = "\u20AC";
+    private static final int DECIMAL_PLACE = 2;
+    private static final String EURO_CHAR = "\u20AC";
 
-    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    private final DateFormat timeFormat = new SimpleDateFormat("hh:mm");
-    private final DecimalFormat decimalFormat = new DecimalFormat("###.##");
+    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static final DateFormat timeFormat = new SimpleDateFormat("hh:mm");
+    private static final DecimalFormat decimalFormat = new DecimalFormat("###.##");
 
     private Date day;
     private Date startTime;
@@ -41,11 +41,15 @@ public class WorkingDay {
         return TimeUnit.MILLISECONDS.toMinutes(workingTime);
     }
 
-    public String getPayForDay(float rate) {
+    public float getPayForDay(float rate) {
         float sumForHours = hoursAndMinutesWorked.getHours() * rate;
         float sumForMinutes = hoursAndMinutesWorked.getMinutes() * (rate/60);
         float pay = (sumForHours + sumForMinutes);
+        return pay;
+    }
 
+    public String getPayForDayFormatted(float rate) {
+        float pay = getPayForDay(rate);
         return decimalFormat.format(pay) + EURO_CHAR;
     }
 

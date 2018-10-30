@@ -2,7 +2,7 @@ import model.Agenda;
 import model.Person;
 import model.WorkingDay;
 import org.apache.poi.ss.usermodel.*;
-import processor.ExcelFileReader;
+import processor.ExcelUtils;
 import processor.ReadFromFile;
 import processor.WriteToFile;
 
@@ -22,22 +22,24 @@ public class ProcessExcel {
 
     public static void main(String[] args) {
         Person person = null;
-        Agenda myAgenda = new Agenda(person);
+        Agenda myAgenda = new Agenda();
 
         File xlsFile = new File(EXCEL_PROCESS_TEST_XLS);
         String pathFile = xlsFile.getAbsolutePath();
         System.out.println(pathFile);
 
-        Workbook workbook = ExcelFileReader.getWorkbook(pathFile);
-        Sheet sheet = ExcelFileReader.getOrCreateSheetAt(workbook, FIRST_TAB_SHEET);
+        Workbook workbook = ExcelUtils.getWorkbook(pathFile);
+        Sheet sheet = ExcelUtils.getOrCreateSheetAt(workbook, FIRST_TAB_SHEET);
 
-        Map<Integer, List<String>> mapOfRows = ReadFromFile.getRowsMap(sheet);
+        Map<Integer, List<String>> mapOfRows = ExcelUtils.getRowsMap(sheet);
+        System.out.println("Number of rows: " + mapOfRows.size());
         // Code that need to be tweaked more
         Iterator it = mapOfRows.entrySet().iterator();
         float payRate = ReadFromFile.getPayRate(it); //get the first row and extract the pay rate
 
         try {
             person = new Person("Fabiana", "Iacullo", bornFormat.parse("24/12/1988"), payRate);
+            myAgenda.setPerson(person);
         } catch (ParseException e) {
             System.err.println("Born date you entered is not in the right format. Error in format: " + e);
         }
@@ -45,14 +47,18 @@ public class ProcessExcel {
         System.out.println("Pay Rate for hour is: " + payRate);
         while(it.hasNext()) {
             WorkingDay workingDay = ReadFromFile.extractRow(it);
+
+            // If we get a null WorkingDay we assume that there is no WorkingDay to extract anymore
+            if(workingDay == null) { break; }
+
             myAgenda.getListWorkingDay().add(workingDay);
             System.out.println(workingDay.toString());
         }
 
-        WriteToFile.writeTimeWorked(sheet, myAgenda.getListWorkingDay());
-        Sheet paymentSheet = ExcelFileReader.getOrCreateSheetAt(workbook, SECOND_TAB_SHEET, "Payment", true);
-        WriteToFile.writePayCalculation(paymentSheet, myAgenda.getListWorkingDay(), person.getPayRate());
-        ExcelFileReader.saveWorkbook(workbook, pathFile);
+        Sheet paymentSheet = ExcelUtils.getOrCreateSheetAt(workbook, SECOND_TAB_SHEET, "Payment", true);
+        WriteToFile.writePaymentSheet(paymentSheet, myAgenda.getListWorkingDay(), person.getPayRate());
+        myAgenda.getSumOfSalaryFormatted();
+        ExcelUtils.saveWorkbook(workbook, pathFile);
     }
 
 

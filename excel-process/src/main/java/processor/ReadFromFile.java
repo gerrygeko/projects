@@ -31,6 +31,9 @@ public class ReadFromFile {
         Map.Entry pair = (Map.Entry) it.next();
         ArrayList<String> list = (ArrayList<String>) pair.getValue();
 
+        // If the row has no values in no one of his cells, we assume is the last row and we return a null WorkingDay;
+        if(list.size() == 0) { return workingDay; }
+
         try {
             Date day = readFormat.parse(list.get(DAY_INDEX));
             Date startTime = readFormat.parse(list.get(START_INDEX));
@@ -47,42 +50,6 @@ public class ReadFromFile {
         }
 
         return workingDay;
-    }
-
-    // Extract a map out of the excel file, where the key is the element 'i' of the row and the value is an ArrayList<String>
-    // containing all the values of the cells on that row
-    public static Map<Integer, List<String>> getRowsMap(Sheet sheet) {
-        Map<Integer, List<String>> data = new HashMap<>();
-        int i = 0;
-        for (Row row : sheet) {
-            ArrayList<String> valueString = new ArrayList<String>();
-            data.put(i, valueString);
-            for (Cell cell : row) {
-                switch (cell.getCellTypeEnum()) {
-                    case STRING:
-                        valueString.add(cell.getRichStringCellValue().getString());
-                        break;
-                    case NUMERIC:
-                        if (DateUtil.isCellDateFormatted(cell)) {
-                            valueString.add(cell.getDateCellValue() + "");
-                        } else {
-                            valueString.add(cell.getNumericCellValue() + "");
-                        }
-                        break;
-                    case BOOLEAN:
-                        valueString.add(cell.getBooleanCellValue() + "");
-                        break;
-                    case FORMULA:
-                        valueString.add(cell.getCellFormula() + "");
-                        break;
-                    case _NONE:
-                        valueString.add(" ");
-                }
-            }
-            i++;
-
-        }
-        return data;
     }
 
     // Process the first row of the file

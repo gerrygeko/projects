@@ -1,16 +1,16 @@
 package processor;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class ExcelFileReader {
+public class ExcelUtils {
 
     // Load the workbook of a file loaded from the filePath passed
     public static Workbook getWorkbook(String filePath) {
@@ -20,11 +20,13 @@ public class ExcelFileReader {
 
         try {
             file = new FileInputStream(new File(filePath));
-            workbook = new HSSFWorkbook(file);
+            workbook = new XSSFWorkbook(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+
         }
         return workbook;
     }
@@ -102,6 +104,42 @@ public class ExcelFileReader {
             return row;
         }
         return sheet.getRow(index);
+    }
+
+    // Extract a map out of the excel file, where the key is the element 'i' of the row and the value is an ArrayList<String>
+    // containing all the values of the cells on that row
+    public static Map<Integer, List<String>> getRowsMap(Sheet sheet) {
+        Map<Integer, List<String>> data = new HashMap<>();
+        int i = 0;
+        for (Row row : sheet) {
+            ArrayList<String> valueString = new ArrayList<String>();
+            data.put(i, valueString);
+            for (Cell cell : row) {
+                switch (cell.getCellTypeEnum()) {
+                    case STRING:
+                        valueString.add(cell.getRichStringCellValue().getString());
+                        break;
+                    case NUMERIC:
+                        if (DateUtil.isCellDateFormatted(cell)) {
+                            valueString.add(cell.getDateCellValue() + "");
+                        } else {
+                            valueString.add(cell.getNumericCellValue() + "");
+                        }
+                        break;
+                    case BOOLEAN:
+                        valueString.add(cell.getBooleanCellValue() + "");
+                        break;
+                    case FORMULA:
+                        valueString.add(cell.getCellFormula() + "");
+                        break;
+                    case _NONE:
+                        valueString.add(" ");
+                }
+            }
+            i++;
+
+        }
+        return data;
     }
 
     private static Sheet cleanSheet(Sheet sheet) {
