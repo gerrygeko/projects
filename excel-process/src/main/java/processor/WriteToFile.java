@@ -43,13 +43,10 @@ public class WriteToFile {
 
             cell0.setCellType(CellType.STRING);
 
-            try {
-                System.out.println(day.getDay().toString());
-                System.out.println(dayFormat.parse(day.getDay().toString()));
-                cell0.setCellValue(dayFormat.parse(day.getDay().toString()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            System.out.println(day.getDay().toString());
+            System.out.println(dayFormat.format(day.getDay()));
+            cell0.setCellValue(dayFormat.format(day.getDay()));
+
 
             cell1.setCellType(CellType.STRING);
             cell1.setCellValue(day.getPayForDay(rate));
