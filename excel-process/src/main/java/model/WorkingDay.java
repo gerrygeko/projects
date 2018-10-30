@@ -1,14 +1,13 @@
 package model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -42,8 +41,10 @@ public class WorkingDay {
     }
 
     public float getPayForDay(float rate) {
-        float sumForHours = hoursAndMinutesWorked.getHours() * rate;
-        float sumForMinutes = hoursAndMinutesWorked.getMinutes() * (rate/60);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(hoursAndMinutesWorked);
+        float sumForHours = calendar.get(Calendar.HOUR) * rate;
+        float sumForMinutes = calendar.get(Calendar.MINUTE) * (rate/60);
         float pay = (sumForHours + sumForMinutes);
         return pay;
     }
@@ -68,9 +69,7 @@ public class WorkingDay {
     }
 
     public String getConvertedMinutesToHoursAndMinutesParsed() {
-        String hours = hoursAndMinutesWorked.getHours() + "";
-        String minutes = hoursAndMinutesWorked.getMinutes() + "";
-        return hours + ":" + minutes;
+        return timeFormat.format(hoursAndMinutesWorked);
     }
 
     @Override

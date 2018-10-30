@@ -56,6 +56,7 @@ public class ProcessExcel {
         }
 
         Sheet paymentSheet = ExcelUtils.getOrCreateSheetAt(workbook, SECOND_TAB_SHEET, "Payment", true);
+        WriteToFile.loadStyles(workbook);
         WriteToFile.writePaymentSheet(paymentSheet, myAgenda.getListWorkingDay(), person.getPayRate());
         myAgenda.getSumOfSalaryFormatted();
         ExcelUtils.saveWorkbook(workbook, pathFile);
