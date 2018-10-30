@@ -8,9 +8,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
+import java.util.Iterator;
 
 public class ExcelFileReader {
 
+    // Load the workbook of a file loaded from the filePath passed
     public static Workbook getWorkbook(String filePath) {
 
         FileInputStream file;
@@ -18,7 +20,7 @@ public class ExcelFileReader {
 
         try {
             file = new FileInputStream(new File(filePath));
-            workbook = new XSSFWorkbook(file);
+            workbook = new HSSFWorkbook(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -27,6 +29,7 @@ public class ExcelFileReader {
         return workbook;
     }
 
+    // Save the workbook into a file giving the filePath
     public static void saveWorkbook(Workbook workbook, String filePath) {
         // Write the output to the file
         FileOutputStream fileOut = null;
@@ -44,6 +47,7 @@ public class ExcelFileReader {
         }
     }
 
+    // Get or, if not present, create a sheet with the given index, of the workbook passed
     public static Sheet getOrCreateSheetAt(Workbook workbook, int index) {
         Sheet sheet = workbook.getSheetAt(index);
         if (sheet == null) {
@@ -52,6 +56,8 @@ public class ExcelFileReader {
         return sheet;
     }
 
+    // Get or, if not present, create a sheet with the given index, of the workbook passed. The name passed correspond to the
+    // name assigned at the sheet
     public static Sheet getOrCreateSheetAt(Workbook workbook, int index, String name) {
         Sheet sheet = null;
         int maxSheet = workbook.getNumberOfSheets();
@@ -60,6 +66,22 @@ public class ExcelFileReader {
             return sheet;
         }
         return workbook.getSheetAt(index);
+    }
+
+    // Get or, if not present, create a sheet with the given index, of the workbook passed. The name passed correspond to the
+    // name assigned at the sheet. Use the boolean clean if you want to clean the sheet before.
+    public static Sheet getOrCreateSheetAt(Workbook workbook, int index, String name, boolean clean) {
+        Sheet sheet = null;
+        int maxSheet = workbook.getNumberOfSheets();
+        if (index >= maxSheet) {
+            sheet = workbook.createSheet(name);
+            return sheet;
+        }
+        sheet = workbook.getSheetAt(index);
+
+        // Clean the sheet you return or pass the same sheet
+        sheet = clean ? cleanSheet(sheet) : sheet;
+        return sheet;
     }
 
     public static Cell getOrCreateCell(Row row, int index) {
@@ -80,6 +102,13 @@ public class ExcelFileReader {
             return row;
         }
         return sheet.getRow(index);
+    }
+
+    private static Sheet cleanSheet(Sheet sheet) {
+        for (int index = sheet.getLastRowNum(); index >= sheet.getFirstRowNum(); index--) {
+            sheet.removeRow( sheet.getRow(index));
+        }
+        return sheet;
     }
 
 }

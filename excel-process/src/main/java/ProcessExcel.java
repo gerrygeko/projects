@@ -50,7 +50,7 @@ public class ProcessExcel {
         }
 
         WriteToFile.writeTimeWorked(sheet, myAgenda.getListWorkingDay());
-        Sheet paymentSheet = ExcelFileReader.getOrCreateSheetAt(workbook, SECOND_TAB_SHEET, "Payment");
+        Sheet paymentSheet = ExcelFileReader.getOrCreateSheetAt(workbook, SECOND_TAB_SHEET, "Payment", true);
         WriteToFile.writePayCalculation(paymentSheet, myAgenda.getListWorkingDay(), person.getPayRate());
         ExcelFileReader.saveWorkbook(workbook, pathFile);
     }

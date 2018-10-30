@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,8 +17,12 @@ import java.util.concurrent.TimeUnit;
 public class WorkingDay {
 
 
+    public static final int DECIMAL_PLACE = 2;
+    public static final String EURO_CHAR = "\u20AC";
+
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private final DateFormat timeFormat = new SimpleDateFormat("hh:mm");
+    private final DecimalFormat decimalFormat = new DecimalFormat("###.##");
 
     private Date day;
     private Date startTime;
@@ -35,10 +41,12 @@ public class WorkingDay {
         return TimeUnit.MILLISECONDS.toMinutes(workingTime);
     }
 
-    public float getPayForDay(float rate) {
+    public String getPayForDay(float rate) {
         float sumForHours = hoursAndMinutesWorked.getHours() * rate;
         float sumForMinutes = hoursAndMinutesWorked.getMinutes() * (rate/60);
-        return sumForHours + sumForMinutes;
+        float pay = (sumForHours + sumForMinutes);
+
+        return decimalFormat.format(pay) + EURO_CHAR;
     }
 
     public Date calculateConvertedMinutesToHoursAndMinutes() {
