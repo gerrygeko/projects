@@ -1,9 +1,21 @@
 package model;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import lombok.*;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalField;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @Getter
 @Setter
@@ -30,6 +42,14 @@ public class Agenda {
         float sum = getSumOfSalary();
         System.out.println("Total salary: " + decimalFormat.format(sum) + EURO_CHAR);
         return decimalFormat.format(sum) + EURO_CHAR;
+    }
+
+    public Map<Integer, List<WorkingDay>> getMapSplitPerMonth() {
+
+        Map<Integer, List<WorkingDay>> result = listWorkingDay.stream().collect(groupingBy(date -> date.getDay().getMonth()));
+
+        return result;
+
     }
 
 }

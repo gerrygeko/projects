@@ -6,10 +6,7 @@ import org.apache.poi.ss.usermodel.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class WriteToFile {
 
@@ -69,6 +66,21 @@ public class WriteToFile {
 
             index ++;
         }
+    }
+
+    // TODO: Logic is working. Visualize the datas in the payment sheet. Use the keySet to represent the months. Consider moving this logic
+    public static void writePaymentByMonth(Sheet sheet, Map<Integer, List<WorkingDay>> map, float rate) {
+        int index = 1;
+        CellStyle style = styles.get(STYLE_CENTER);
+        Iterator it = map.entrySet().iterator();
+
+        while(it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            ArrayList<WorkingDay> list = (ArrayList<WorkingDay>) pair.getValue();
+            double sum = list.stream().mapToDouble(day -> day.getPayForDay(rate)).sum();
+            System.out.println("Sum of the month: " + sum);
+        }
+
     }
 
 
