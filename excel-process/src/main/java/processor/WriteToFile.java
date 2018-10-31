@@ -79,6 +79,15 @@ public class WriteToFile {
             ArrayList<WorkingDay> list = (ArrayList<WorkingDay>) pair.getValue();
             double sum = list.stream().mapToDouble(day -> day.getPayForDay(rate)).sum();
             System.out.println("Sum of the month: " + sum);
+            Row row = ExcelUtils.getOrCreateRow(sheet, index);
+            Cell cellMonth = row.createCell(COL_MONTH);
+            Cell cellMonthSalary = row.createCell(COL_TOT_MONTH);
+
+            cellMonth.setCellStyle(style);
+            cellMonth.setCellValue(list.get(0).getMonth());
+            cellMonthSalary.setCellStyle(style);
+            cellMonthSalary.setCellValue(sum);
+            index ++;
         }
 
     }

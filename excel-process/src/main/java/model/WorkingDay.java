@@ -3,10 +3,7 @@ package model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -70,6 +67,15 @@ public class WorkingDay {
 
     public String getConvertedMinutesToHoursAndMinutesParsed() {
         return timeFormat.format(hoursAndMinutesWorked);
+    }
+
+    public String getMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(day);
+        int month = calendar.get(Calendar.MONTH);
+        String monthString = new DateFormatSymbols().getMonths()[month];
+        //monthString = monthString.charAt(0).toUppercase();
+        return monthString;
     }
 
     @Override
