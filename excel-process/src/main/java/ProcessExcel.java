@@ -58,8 +58,9 @@ public class ProcessExcel {
         Sheet paymentSheet = ExcelUtils.getOrCreateSheetAt(workbook, SECOND_TAB_SHEET, "Payment", true);
         WriteToFile.loadStyles(workbook);
         WriteToFile.writePaymentSheet(paymentSheet, myAgenda.getListWorkingDay(), person.getPayRate());
-        WriteToFile.writePaymentByMonth(paymentSheet, myAgenda.getMapSplitPerMonth(), person.getPayRate());
-        myAgenda.getSumOfSalaryFormatted();
+        int index = WriteToFile.writePaymentByMonth(paymentSheet, myAgenda.getMapSplitPerMonth(), person.getPayRate());
+        WriteToFile.writeSalaryTotal(index, paymentSheet, myAgenda);
+        myAgenda.getSumOfSalary();
         myAgenda.getMapSplitPerMonth();
         ExcelUtils.saveWorkbook(workbook, pathFile);
     }

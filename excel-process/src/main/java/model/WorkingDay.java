@@ -14,7 +14,6 @@ public class WorkingDay {
 
 
     private static final int DECIMAL_PLACE = 2;
-    private static final String EURO_CHAR = "\u20AC";
 
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private static final DateFormat timeFormat = new SimpleDateFormat("hh:mm");
@@ -43,11 +42,6 @@ public class WorkingDay {
         double sumForHours = calendar.get(Calendar.HOUR) * rate;
         double sumForMinutes = calendar.get(Calendar.MINUTE) * (rate/60);
         return sumForHours + sumForMinutes;
-    }
-
-    public String getPayForDayFormatted(double rate) {
-        double pay = getPayForDay(rate);
-        return decimalFormat.format(pay) + EURO_CHAR;
     }
 
     public Date calculateConvertedMinutesToHoursAndMinutes() {

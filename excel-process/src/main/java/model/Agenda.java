@@ -16,23 +16,18 @@ import static java.util.stream.Collectors.groupingBy;
 @RequiredArgsConstructor
 public class Agenda {
 
-    public static final String EURO_CHAR = "\u20AC";
-
-    private static final DecimalFormat decimalFormat = new DecimalFormat("#####.##");
-
     private ArrayList<WorkingDay> listWorkingDay = new ArrayList<>();
     private Person person;
+
+    public static double getSalaryByMonth(ArrayList<WorkingDay> list, double rate) {
+        double sum = list.stream().mapToDouble(day -> day.getPayForDay(rate)).sum();
+        return sum;
+    }
 
     public double getSumOfSalary() {
         double sum;
         sum = listWorkingDay.stream().mapToDouble(day -> day.getPayForDay(person.getPayRate())).sum();
         return sum;
-    }
-
-    public String getSumOfSalaryFormatted() {
-        double sum = getSumOfSalary();
-        System.out.println("Total salary: " + decimalFormat.format(sum) + EURO_CHAR);
-        return decimalFormat.format(sum) + EURO_CHAR;
     }
 
     public Map<Integer, List<WorkingDay>> getMapSplitPerMonth() {
