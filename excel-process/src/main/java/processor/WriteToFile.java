@@ -41,7 +41,7 @@ public class WriteToFile {
 
     }
 
-    public static void writePaymentSheet(Sheet sheet, ArrayList<WorkingDay> listWorkingDay, float rate) {
+    public static void writePaymentSheet(Sheet sheet, ArrayList<WorkingDay> listWorkingDay, double rate) {
         createHeaders(sheet);
         int index = 1;
         CellStyle style = styles.get(STYLE_CENTER);
@@ -69,7 +69,7 @@ public class WriteToFile {
     }
 
     // TODO: Logic is working. Visualize the datas in the payment sheet. Use the keySet to represent the months. Consider moving this logic
-    public static void writePaymentByMonth(Sheet sheet, Map<Integer, List<WorkingDay>> map, float rate) {
+    public static void writePaymentByMonth(Sheet sheet, Map<Integer, List<WorkingDay>> map, double rate) {
         int index = 1;
         CellStyle style = styles.get(STYLE_CENTER);
         Iterator it = map.entrySet().iterator();

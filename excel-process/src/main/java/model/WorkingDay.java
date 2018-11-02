@@ -37,17 +37,16 @@ public class WorkingDay {
         return TimeUnit.MILLISECONDS.toMinutes(workingTime);
     }
 
-    public float getPayForDay(float rate) {
+    public double getPayForDay(double rate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(hoursAndMinutesWorked);
-        float sumForHours = calendar.get(Calendar.HOUR) * rate;
-        float sumForMinutes = calendar.get(Calendar.MINUTE) * (rate/60);
-        float pay = (sumForHours + sumForMinutes);
-        return pay;
+        double sumForHours = calendar.get(Calendar.HOUR) * rate;
+        double sumForMinutes = calendar.get(Calendar.MINUTE) * (rate/60);
+        return sumForHours + sumForMinutes;
     }
 
-    public String getPayForDayFormatted(float rate) {
-        float pay = getPayForDay(rate);
+    public String getPayForDayFormatted(double rate) {
+        double pay = getPayForDay(rate);
         return decimalFormat.format(pay) + EURO_CHAR;
     }
 
